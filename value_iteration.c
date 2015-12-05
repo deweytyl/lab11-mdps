@@ -15,9 +15,9 @@ void value_iteration( const mdp* p_mdp, double epsilon, double gamma,
   // Run value iteration!
 
   double *updated_utilities;
-  double delta;
-
-  int state, num_states, utilities_size;
+  double max_utilities_change, utilities_change;
+  unsigned int state, num_states;
+  size_t utilities_size;
 
   num_states = p_mdp->numStates;
   utilities_size = sizeof(double) * num_states;
@@ -27,8 +27,9 @@ void value_iteration( const mdp* p_mdp, double epsilon, double gamma,
 
   do 
   {
+    // update the old utilities
     memcpy(utilities, updated_utilities, utilities_size);
-    delta = 0;
+    max_utilities_change = 0;
 
     for ( state = 0; state < num_states ; state++ )
     {
@@ -36,29 +37,24 @@ void value_iteration( const mdp* p_mdp, double epsilon, double gamma,
       unsigned int action;
 
       if (p_mdp->terminal[state]) // if this is a terminal state
-      {
-        // then the utility should just be the reward
-        updated_utilities[state] = p_mdp->rewards[state]
+      { // then the utility should just be the reward
+        updated_utilities[state] = p_mdp->rewards[state];
       }
       else
-      {
-        calc_meu(
-          p_mdp,
-          state,
-          utilities,
-          &meu,
-          &action
-        );
+      { // otherwise, it is reward + discount_rate * meu
+        calc_meu(p_mdp, state, utilities, &meu, &action);
 
         updated_utilities[state] = p_mdp->rewards[state] + gamma * meu;
       }
+      
+      utilities_change = fabs(updated_utilities[state] - utilities[state]);
 
-      if (fabs(updated_utilities[state] - utilities[state]) > delta)
+      if (utilities_change > max_utilities_change)
       {
-        delta = fabs(updated_utilities[state] - utilities[state]);
+        max_utilities_change = utilities_change;
       }
     }
-  } while(!(delta < (epsilon * (1 - gamma) / gamma)));
+  } while(!(max_utilities_change < (epsilon * (1 - gamma) / gamma)));
 
   // Clean up
   free(updated_utilities);

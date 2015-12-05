@@ -73,7 +73,7 @@ void policy_iteration( const mdp* p_mdp, double epsilon, double gamma,
       }
     }
 
-  } while (!unchanged)
+  } while (!unchanged);
 
   // Clean up
   free(utilities);
