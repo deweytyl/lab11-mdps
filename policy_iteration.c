@@ -40,7 +40,43 @@
 void policy_iteration( const mdp* p_mdp, double epsilon, double gamma,
 		      unsigned int *policy)
 {
-  
+  double *utilities;
+
+  unsigned int state, num_states, utilities_size, unchanged,
+               current_eu, meu, maximizing_action;
+
+  num_states = p_mdp->numStates;
+  utilities_size = sizeof(double) * num_states;
+
+  utilities = malloc(utilities_size);
+  bzero(utilities, utilities_size);
+
+  do {
+
+    unchanged = 1;
+
+    // evaluate our current policy, storing the updated utilities
+    // in utilities
+    policy_evaluation(policy, p_mdp, epsilon, gamma, utilities);
+
+    for ( state = 0; state < num_states ; state++ )
+    {
+
+      current_eu = calc_eu(p_mdp, state, utilities, policy[state]);
+
+      calc_meu(p_mdp, state, utilities, &meu, &maximizing_action);
+
+      if (meu > current_eu)
+      {
+        policy[state] = maximizing_action;
+        unchanged = 0;
+      }
+    }
+
+  } while (!unchanged)
+
+  // Clean up
+  free(utilities);
 }
 
 /*  Procedure

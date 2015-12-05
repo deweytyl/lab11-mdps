@@ -18,14 +18,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[])
 {
-  if (argc != 2)
+  if (argc != 4)
   {
-    fprintf(stderr,"Usage: %s mdpfile\n",argv[0]);
+    fprintf(stderr,"Usage: %s mdpfile state action\n",argv[0]);
     exit(EXIT_FAILURE);
   }
 
   // Pointer for the MDP struct
   mdp *p_mdp;
+
+  unsigned int state, action;
+
+  state = (unsigned int) strtol(argv[2], NULL, 10);
+  action = (unsigned int) strtol(argv[3], NULL, 10);
 
   // Read the MDP file
   p_mdp = mdp_read(argv[1]);
@@ -34,29 +39,16 @@ int main(int argc, char* argv[])
     // mdp_read prints a message upon failure
     exit(EXIT_FAILURE);
     
-	// Print information about the markov decision process (MDP)
-  printf("MDP Info for %s\n",argv[1]);
-  printf("Number of states: %u\n", p_mdp->numStates);
-  printf("Number of actions: %u\n", p_mdp->numActions);
-
-  printf("Available actions\n");
+	// Print header for transition table
+  printf("s'\tP(s' | s=%u,a=%u\n)", state, action);
   
-  unsigned int state; // Loop variable over states
+  unsigned int successor; // Loop variable over successor states
+  double transition; // The transition probability for each successor state
 
-  for (state=0 ; state < p_mdp->numStates ; state++)
+  for (successor=0 ; successor < p_mdp->numStates ; successor++)
   {
-    printf("State %u: ", state);
-
-    unsigned int availableActions = p_mdp->numAvailableActions[state];
-    printf("[%u] ", availableActions);
-
-    unsigned int action;
-    
-    for (action=0 ; action < availableActions ; action++) {
-      printf("%u ", p_mdp->actions[state][action]);
-    }
-
-    printf("\n");
+    transition = p_mdp->transitionProb[successor][state][action];
+    printf("%u\t%.2lf\n", successor, transition);
   }
 
   // Clean up
