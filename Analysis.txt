@@ -1,0 +1,160 @@
+Analysis
+
++----------------------------+
+| Problem 5: Value Iteration |
++----------------------------+
+
+Actual Values from Fig 17.3:
+    0.812
+    0.762
+    0.705
+    0.868
+    blank
+    0.655
+    0.918
+    0.660
+    0.611
+    1.000
+    -1.000
+    0.388
+
+Tests: 
+    $ ./value_iteration .99999 .001 4x3.mdp
+    0.811522
+    0.761512
+    0.705252
+    0.867784
+    -0.040000
+    0.655243
+    0.917795
+    0.660255
+    0.611348
+    1.000000
+    -1.000000
+    0.387860
+
+    $ ./value_iteration .99 .01 4x3.mdp
+    0.776184
+    0.716627
+    0.650616
+    0.843935
+    -0.040000
+    0.592541
+    0.905096
+    0.641327
+    0.560027
+    1.000000
+    -1.000000
+    0.337952
+
+Predict:
+    We expect to see a direct path to a +1 terminal state that avoids coming close to -1 terminal states to have a greater cumulative value than both the shortest path and longer paths. In all instances distance dulls the effect of the terminal state's reward. States closer to -1 terminal states have a lower value than states farther away, and similarly, states closer to +1 terminal states have a higher value. We expect the state adjacent to both a +1 and a -1 (12,0) to have a value near 0.5. In the tests we ran, the blank state had a permanent value of -0.04, and we expect the same for all the blank states in this grid. 
+
+Experiment:
+    $ ./value_iteration .99999 .001 16x4.mdp
+    -0.231684
+    -0.040000
+    -0.040000
+    -1.000000
+    -0.181686
+    -0.040000
+    -0.104063
+    -0.248053
+    -0.131688
+    -0.080508
+    -0.036064
+    -0.040000
+    -0.091133
+    -0.036064
+    0.019491
+    0.076436
+    -0.040000
+    -0.040000
+    -0.040000
+    0.133556
+    0.339819
+    0.289815
+    0.239811
+    0.183558
+    0.396074
+    -0.040000
+    -0.040000
+    -0.040000
+    0.446079
+    -0.040000
+    -0.040000
+    -1.000000
+    0.496085
+    0.558594
+    0.608601
+    0.578041
+    0.446079
+    -0.040000
+    0.668680
+    0.624228
+    -0.040000
+    0.674237
+    0.724246
+    0.668680
+    -1.000000
+    -0.040000
+    0.787452
+    -0.040000
+    0.943736
+    0.893725
+    0.837462
+    0.798565
+    1.000000
+    -0.040000
+    -0.040000
+    0.843714
+    -0.040000
+    -0.040000
+    -0.040000
+    0.893725
+    -3999.999000
+    -0.040000
+    1.000000
+    0.943736
+
+
++-----------------------------+
+| Problem 6: Policy Iteration |
++-----------------------------+
+
+Action->Arrow translation
+    0 1 2 3
+    ↑ ↓ ← →
+
+Test:
+    $ ./policy_iteration .99 .01 4x3.mdp
+    3
+    0
+    0               → → → ↑
+    3               ↑ x ↑ ↑
+    0               ↑ ← ↑ ←
+    2
+    3
+    0
+    0
+    0
+    0
+    2
+
+    $ ./policy_iteration .999 .001 4x3.mdp
+    3 
+    0 
+    0                → → → ↑
+    3                ↑ x ↑ ↑
+    0                ↑ ← ← ←
+    2 
+    3 
+    0 
+    2 
+    0 
+    0 
+    2 
+
+
+Predict:
+    We observed in our tests that the policy is very risk-averse. When placed in the bottom left corner, rather than just going back up, the policy for 4x3 takes an agent all the way back to (0,2) (the bottom left corner). We assume that the policy generated for 16x4 would be similar, taking great lengths to find the "safest" path to a +1, avoiding paths that could (because of the action's unpredictable result) put the agent in or near a -1 terminal state. We predict that there will be a main path that never gets closer than it must to -1 states, where the states nearer to the -1 point towards that path. We predict that the policy will favor the +1 state farther away from the -1, not the one at (13, 0) that is separated from a -1 only by 1 square.
