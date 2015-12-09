@@ -5,8 +5,10 @@
 double calc_eu( const mdp*  p_mdp, unsigned int state, const double* utilities,
 	      const unsigned int action)
 {
-  double eu = 0;   // Expected utility
+  double eu;   // Expected utility
   int successor;
+
+  eu = 0;
 
   // Calculate expected utility: sum_{s'} P(s'|s,a)*U(s')
 
