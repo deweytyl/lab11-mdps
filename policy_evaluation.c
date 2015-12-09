@@ -66,7 +66,7 @@ void policy_evaluation( const unsigned int* policy, const mdp* p_mdp,
         double eu;
         eu = calc_eu(p_mdp, state, utilities, policy[state]);
 
-        updated_utilities = p_mdp->rewards[state] + gamma * eu;
+        updated_utilities[state] = p_mdp->rewards[state] + gamma * eu;
       }
 
       if (fabs(updated_utilities[state] - utilities[state]) > delta)

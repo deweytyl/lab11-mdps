@@ -37,7 +37,7 @@ void value_iteration( const mdp* p_mdp, double epsilon, double gamma,
       unsigned int action;
 
       if (p_mdp->terminal[state]) // if this is a terminal state
-      { // then the utility should just be the reward
+      { // then the utility should be just the reward
         updated_utilities[state] = p_mdp->rewards[state];
       }
       else

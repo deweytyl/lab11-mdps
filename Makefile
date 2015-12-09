@@ -1,4 +1,4 @@
-FLAGS=-g -std=c99
+FLAGS=-g -std=gnu99
 
 mdp: mdp.c mdp.h
 	gcc ${FLAGS} -c mdp.c

@@ -42,8 +42,10 @@ void policy_iteration( const mdp* p_mdp, double epsilon, double gamma,
 {
   double *utilities;
 
+  double current_eu, meu;
+
   unsigned int state, num_states, utilities_size, unchanged,
-               current_eu, meu, maximizing_action;
+               maximizing_action;
 
   num_states = p_mdp->numStates;
   utilities_size = sizeof(double) * num_states;
