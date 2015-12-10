@@ -131,12 +131,12 @@ Test:
     3
     0
     0               → → → ↑
-    3               ↑ x ↑ ↑
+    3               ↑ ↑ ↑ ↑
     0               ↑ ← ↑ ←
     2
-    3
-    0
-    0
+    3               → → → ↑
+    0               ↑ ■ ↑ ↑
+    0               ↑ ← ↑ ←
     0
     0
     2
@@ -145,16 +145,102 @@ Test:
     3 
     0 
     0                → → → ↑
-    3                ↑ x ↑ ↑
+    3                ↑ ↑ ↑ ↑
     0                ↑ ← ← ←
     2 
     3 
-    0 
-    2 
-    0 
+    0                → → → +
+    2                ↑ ■ ↑ -
+    0                ↑ ← ← ←
     0 
     2 
 
 
 Predict:
     We observed in our tests that the policy is very risk-averse. When placed in the bottom left corner, rather than just going back up, the policy for 4x3 takes an agent all the way back to (0,2) (the bottom left corner). We assume that the policy generated for 16x4 would be similar, taking great lengths to find the "safest" path to a +1, avoiding paths that could (because of the action's unpredictable result) put the agent in or near a -1 terminal state. We predict that there will be a main path that never gets closer than it must to -1 states, where the states nearer to the -1 point towards that path. We predict that the policy will favor the +1 state farther away from the -1, not the one at (13, 0) that is separated from a -1 only by 1 square.
+
+Experiment:
+    $ ./policy_iteration .999 .001 16x4.mdp
+    3
+    0
+    0
+    0
+    3
+    0
+    3
+    0
+    1
+    1
+    3
+    0
+    1
+    1
+    1
+    3
+    0
+    0
+    0
+    3
+    3
+    0
+    0
+    0
+    3
+    0
+    0
+    0
+    3
+    0
+    0
+    0
+    1
+    1
+    3
+    3
+    2
+    0
+    3
+    3
+    0
+    1
+    3
+    0
+    0
+    0
+    3
+    0
+    3
+    0
+    0
+    3
+    0
+    0
+    0
+    3
+    0
+    0
+    0
+    3
+    0
+    0
+    0
+    0
+
+With blank spaces:
+→ → ↓ ↓ ↑ → → → ↓ ← ↑ ↑ → ↑ ↑ ↑
+↑ ↑ ↓ ↓ ↑ ↑ ↑ ↑ ↓ ↑ ↓ ↑ ↑ ↑ ↑ ↑
+↑ → → ↓ ↑ ↑ ↑ ↑ → → → → ↑ ↑ ↑ ↑
+↑ ↑ ↑ → → ↑ ↑ ↑ → → ↑ ↑ → → → ↑
+
+Without blank spaces:
+→ → ↓ ↓ ■ → → → ↓ ← ■ ↑ → ↑ ■ ↑
+■ ■ ↓ ↓ ■ ↑ ■ ■ ↓ ■ ↓ ■ ↑ ■ ■ ■
+■ → → ↓ ■ ↑ ■ ■ → → → → ↑ ■ ■ ↑
+↑ ↑ ■ → → ↑ ■ ↑ → → ↑ ■ → → → ↑
+
+W/o blanks & with terminal states:
+→ → ↓ ↓ ■ → → → ↓ ← ■ - → + ■ ↑
+■ ■ ↓ ↓ ■ ↑ ■ ■ ↓ ■ ↓ ■ ↑ ■ ■ ■
+■ → → ↓ ■ ↑ ■ ■ → → → → ↑ ■ ■ +
+- ↑ ■ → → ↑ ■ - → → ↑ ■ → → → ↑
+
