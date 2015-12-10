@@ -8,7 +8,36 @@
 #include "utilities.h"
 #include "mdp.h"
 
-
+/*  Procedure
+ *    value_iteration
+ *
+ *  Purpose
+ *    Estimate utilities with iterative updates
+ *
+ *  Parameters
+ *   p_mdp
+ *   epsilon
+ *   gamma
+ *   utilities
+ *
+ *  Produces,
+ *   [Nothing.]
+ *
+ *  Preconditions
+ *    p_mdp is a pointer to a valid, complete mdp
+ *    utilities points to a valid array of length p_mdp->numStates
+ *    epsilon > 0
+ *    0 < gamma < 1
+ *
+ *  Postconditions
+ *    utilities[s] contains the estimated utility value for the given state
+ *
+ *  Authors
+ *    Daniel Nanetti-Palacios
+ *    Tyler Dewey
+ *
+ * Documentation adapted from Jerod Weinman's policy_iteration.c
+ */ 
 void value_iteration( const mdp* p_mdp, double epsilon, double gamma,
           double *utilities)
 {
@@ -37,11 +66,13 @@ void value_iteration( const mdp* p_mdp, double epsilon, double gamma,
       unsigned int action;
 
       if (p_mdp->terminal[state]) // if this is a terminal state
-      { // then the utility should be just the reward
+      { 
+        // then the utility should be just the reward
         updated_utilities[state] = p_mdp->rewards[state];
       }
       else
-      { // otherwise, it is reward + discount_rate * meu
+      { 
+        // otherwise, it is reward + discount_rate * meu
         calc_meu(p_mdp, state, utilities, &meu, &action);
 
         updated_utilities[state] = p_mdp->rewards[state] + gamma * meu;

@@ -36,6 +36,10 @@
  *    policy[s] contains the optimal policy for the given mdp
  *    Each policy entry respects 0 <= policy[s] < p_mdp->numActions
  *       and policy[s] is an entry in p_mdp->actions[s]
+ *
+ *  Authors
+ *    Jerod Weinman (documentation & skeleton)
+ *    Daniel NP & Tyler D (implementation)
  */			
 void policy_iteration( const mdp* p_mdp, double epsilon, double gamma,
 		      unsigned int *policy)

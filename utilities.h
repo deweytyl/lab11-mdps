@@ -46,6 +46,10 @@
  *    specified action in the given state:
  *       eu = sum_{s'=0..p_mdp->numStates} P(s'|state,action) * utilities(s')
  *    where P(s'|s,a) represents the transition probability in the MDP
+ *
+ *  Authors
+ *    Jerod Weinman (documentation & skeleton)
+ *    Daniel NP & Tyler D (implementation)
  */
 double calc_eu( const mdp*  p_mdp, unsigned int state, const double* utilities,
 		const unsigned int action);
@@ -81,6 +85,10 @@ double calc_eu( const mdp*  p_mdp, unsigned int state, const double* utilities,
  *    where P(s'|s,a) represents the transition probability in the MDP
  *    
  *    *action is a value of a that yields *meu: argmax_{a} EU(state,a) 
+ *
+ *  Authors
+ *    Jerod Weinman (documentation & skeleton)
+ *    Daniel NP & Tyler D (implementation)
  */
 void calc_meu( const mdp*  p_mdp, unsigned int state, const double* utilities,
 	       double *meu, unsigned int *action );

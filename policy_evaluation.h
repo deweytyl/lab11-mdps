@@ -16,7 +16,7 @@
  *   gamma
  *   utilities
  *
- *  Produces
+ *  Produces,
  *   [Nothing.]
  *
  *  Preconditions
@@ -31,6 +31,10 @@
  *  Postconditions
  *    utilities[s] has been updated according to the simplified Bellman update
  *    so that no update is larger than epsilon
+ *
+ *  Authors
+ *    Jerod Weinman (documentation & skeleton)
+ *    Daniel NP & Tyler D (implementation)
  */
 void policy_evaluation( const unsigned int* policy, const mdp* p_mdp,
 			double epsilon, double gamma,

@@ -35,13 +35,17 @@
  *  Postconditions
  *    utilities[s] has been updated according to the simplified Bellman update
  *    so that no update is larger than epsilon
+ *
+ *  Authors
+ *    Jerod Weinman (documentation & skeleton)
+ *    Daniel NP & Tyler D (implementation)
  */
 void policy_evaluation( const unsigned int* policy, const mdp* p_mdp,
       double epsilon, double gamma,
       double* utilities)
 {
   double *updated_utilities;
-  double delta;
+  double max_utilities_change, eu;
 
   int state, num_states, utilities_size;
 
@@ -53,7 +57,8 @@ void policy_evaluation( const unsigned int* policy, const mdp* p_mdp,
 
   do
   {
-    delta = 0;
+    max_utilities_change = 0;
+    
     for ( state = 0 ; state < num_states ; state++ )
     {
       if (p_mdp->terminal[state]) // if this is a terminal state
@@ -63,21 +68,26 @@ void policy_evaluation( const unsigned int* policy, const mdp* p_mdp,
       }
       else
       {
-        double eu;
+        // otherwise, it's the reward plus the discounted expected utility
+        // of the policy's action
         eu = calc_eu(p_mdp, state, utilities, policy[state]);
 
         updated_utilities[state] = p_mdp->rewards[state] + gamma * eu;
       }
 
-      if (fabs(updated_utilities[state] - utilities[state]) > delta)
+      // Check if we've found a new max change in utilities
+      utilities_change = fabs(updated_utilities[state] - utilities[state]);
+
+      if (utilities_change > max_utilities_change)
       {
-        delta = fabs(updated_utilities[state] - utilities[state]);
+        max_utilities_change = utilities_change;
       }
     }
 
+    // Update our utilities
     memcpy(utilities, updated_utilities, utilities_size);
 
-  } while (!(delta <= epsilon));
+  } while (!(max_utilities_change <= epsilon));
 
   // Clean up
   free(updated_utilities);
