@@ -44,6 +44,12 @@ double calc_eu( const mdp*  p_mdp, unsigned int state, const double* utilities,
   double eu;   // Expected utility
   int successor;
 
+  // if a state has no successors
+  if (p_mdp->terminal[state] || p_mdp->numAvailableActions[state] <= 0)
+  {
+    return 0; // any action has no expected utility
+  }
+
   eu = 0;
 
   // Calculate expected utility: sum_{s'} P(s'|s,a)*U(s')
