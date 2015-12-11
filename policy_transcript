@@ -1,0 +1,88 @@
+Script started on Thu 10 Dec 2015 09:04:05 PM CST
+flowers$ make policy
+gcc -g -std=gnu99 -c mdp.c
+gcc -g -std=gnu99 -c utilities.c
+gcc -g -std=gnu99 -c policy_evaluation.c 
+gcc -g -std=gnu99 -o policy_iteration policy_iteration.c  \
+mdp.o utilities.o policy_evaluation.o
+flowers$ ./policy_iteration .999 .001 4x3.mdp
+3
+0
+0
+3
+0
+2
+3
+0
+2
+0
+0
+2
+flowers$ ./policy_iteration .999 .001 16x4.mdp
+3
+0
+0
+0
+3
+0
+3
+0
+1
+1
+3
+0
+1
+1
+1
+3
+0
+0
+0
+3
+3
+0
+0
+0
+3
+0
+0
+0
+3
+0
+0
+0
+1
+1
+3
+3
+2
+0
+3
+3
+0
+1
+3
+0
+0
+0
+3
+0
+3
+0
+0
+3
+0
+0
+0
+3
+0
+0
+0
+3
+0
+0
+0
+0
+flowers$ exit
+
+Script done on Thu 10 Dec 2015 09:05:31 PM CST
