@@ -45,7 +45,7 @@ void policy_evaluation( const unsigned int* policy, const mdp* p_mdp,
       double* utilities)
 {
   double *updated_utilities;
-  double max_utilities_change, eu;
+  double max_utilities_change, utilities_change, eu;
 
   int state, num_states, utilities_size;
 

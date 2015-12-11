@@ -105,6 +105,13 @@ void calc_meu( const mdp* p_mdp, unsigned int state, const double* utilities,
   available_actions = p_mdp->actions[state];
 
   max_eu = -INFINITY;
+  max_action = 0;
+
+  if (num_available_actions == 0) {
+    *meu = 0; // max utility of no actions is zero
+    *action = 0;
+    return;
+  }
 
   for (i = 0 ; i < num_available_actions ; i++)
   {
